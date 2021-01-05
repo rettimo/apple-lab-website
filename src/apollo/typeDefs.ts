@@ -4,27 +4,14 @@ export const typeDefs = gql`
   scalar StringOrArrayOfStrings
   scalar StringOrInt
 
-  union Product =
-      IPhone
-    | IPad
-    | MacBook
-    | MacPro
-    | MacMini
-    | IMac
-    | Watch
-    | AppleTV
-    | AirPods
-    | HomePod
-    | IPod
-
-  interface BaseInfo {
+  interface Product {
     id: Int!
     name: String!
     slug: String!
     img: String
   }
 
-  type IPhone implements BaseInfo {
+  type IPhone implements Product {
     id: Int!
     name: String!
     slug: String!
@@ -32,7 +19,7 @@ export const typeDefs = gql`
     type: String
   }
 
-  type IPad implements BaseInfo {
+  type IPad implements Product {
     id: Int!
     name: String!
     slug: String!
@@ -42,7 +29,7 @@ export const typeDefs = gql`
     ruler: String
   }
 
-  type MacBook implements BaseInfo {
+  type MacBook implements Product {
     id: Int!
     name: String!
     slug: String!
@@ -54,7 +41,7 @@ export const typeDefs = gql`
     diagonal: Int
   }
 
-  type MacPro implements BaseInfo {
+  type MacPro implements Product {
     id: Int!
     name: String!
     slug: String!
@@ -64,7 +51,7 @@ export const typeDefs = gql`
     year: StringOrInt
   }
 
-  type MacMini implements BaseInfo {
+  type MacMini implements Product {
     id: Int!
     name: String!
     slug: String!
@@ -74,7 +61,7 @@ export const typeDefs = gql`
     year: StringOrInt
   }
 
-  type IMac implements BaseInfo {
+  type IMac implements Product {
     id: Int!
     name: String!
     slug: String!
@@ -83,7 +70,7 @@ export const typeDefs = gql`
     model: StringOrArrayOfStrings
   }
 
-  type Watch implements BaseInfo {
+  type Watch implements Product {
     id: Int!
     name: String!
     slug: String!
@@ -93,7 +80,7 @@ export const typeDefs = gql`
     diagonal: Int
   }
 
-  type AppleTV implements BaseInfo {
+  type AppleTV implements Product {
     id: Int!
     name: String!
     slug: String!
@@ -102,7 +89,7 @@ export const typeDefs = gql`
     model: StringOrArrayOfStrings
   }
 
-  type AirPods implements BaseInfo {
+  type AirPods implements Product {
     id: Int!
     name: String!
     slug: String!
@@ -111,7 +98,7 @@ export const typeDefs = gql`
     model: StringOrArrayOfStrings
   }
 
-  type HomePod implements BaseInfo {
+  type HomePod implements Product {
     id: Int!
     name: String!
     slug: String!
@@ -120,7 +107,7 @@ export const typeDefs = gql`
     model: StringOrArrayOfStrings
   }
 
-  type IPod implements BaseInfo {
+  type IPod implements Product {
     id: Int!
     name: String!
     slug: String!

@@ -1,0 +1,6 @@
+query Products($productType: String) {
+  products(productType: $productType) {
+    id
+    name
+  }
+}

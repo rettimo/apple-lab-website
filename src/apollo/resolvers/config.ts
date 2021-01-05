@@ -2,9 +2,8 @@ import { GraphQLScalarType, Kind } from 'graphql'
 import { isArrayOfStrings } from '../../utils/isArrayOfStrings'
 
 export const configResolvers = {
-  //* union Product
   Product: {
-    __resolveType: product => {
+    __resolveType: (product: { type: string }) => {
       if (product.type === 'iphone') return 'IPhone'
       if (product.type === 'ipad') return 'IPad'
       if (product.type === 'macbook') return 'MacBook'
