@@ -1,7 +1,7 @@
 import { GetStaticProps, NextPage } from 'next'
-import { initializeApollo } from '../../apollo/client'
-import { useProductsQuery, ProductsDocument } from '../../generated/graphql'
-import { Layout } from '../../components/Layout'
+import { Layout } from 'components/Layout'
+import { initializeApollo } from 'apollo/client'
+import { useProductsQuery, ProductsDocument } from 'generated/graphql'
 
 const IPhonePage: NextPage = () => {
   const { data } = useProductsQuery({
