@@ -48,7 +48,8 @@
     "@typescript-eslint/no-var-requires": "off",
     "global-require": "off",
     "import/no-unresolved": "off",
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "jsx-a11y/anchor-is-valid": "off"
   },
   "settings": {
     "import/resolver": {

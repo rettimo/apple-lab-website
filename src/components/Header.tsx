@@ -53,7 +53,7 @@ export const Header: FC = () => {
     {
       id: 9,
       name: 'HomePod',
-      slug: 'homepod',
+      slug: 'home-pod',
     },
     {
       id: 10,
@@ -74,7 +74,7 @@ export const Header: FC = () => {
             </li>
             {products.map(({ id, name, slug }) => (
               <li key={id}>
-                <Link href={`/${slug}`}>
+                <Link href={`/${slug}`} passHref>
                   <a>{name}</a>
                 </Link>
               </li>

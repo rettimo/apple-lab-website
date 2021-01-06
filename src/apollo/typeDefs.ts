@@ -9,6 +9,7 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
+    type: String!
   }
 
   type IPhone implements Product {
@@ -16,7 +17,7 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
-    type: String
+    type: String!
   }
 
   type IPad implements Product {
@@ -24,7 +25,9 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
-    type: String
+    type: String!
+
+    # own
     model: StringOrArrayOfStrings
     ruler: String
   }
@@ -34,7 +37,9 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
-    type: String
+    type: String!
+
+    # own
     model: StringOrArrayOfStrings
     ruler: String
     year: StringOrInt
@@ -46,7 +51,9 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
-    type: String
+    type: String!
+
+    # own
     model: StringOrArrayOfStrings
     year: StringOrInt
   }
@@ -56,7 +63,9 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
-    type: String
+    type: String!
+
+    # own
     model: StringOrArrayOfStrings
     year: StringOrInt
   }
@@ -66,7 +75,9 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
-    type: String
+    type: String!
+
+    # own
     model: StringOrArrayOfStrings
   }
 
@@ -75,7 +86,9 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
-    type: String
+    type: String!
+
+    # own
     model: StringOrArrayOfStrings
     diagonal: Int
   }
@@ -85,7 +98,9 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
-    type: String
+    type: String!
+
+    # own
     model: StringOrArrayOfStrings
   }
 
@@ -94,7 +109,9 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
-    type: String
+    type: String!
+
+    # own
     model: StringOrArrayOfStrings
   }
 
@@ -103,7 +120,9 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
-    type: String
+    type: String!
+
+    # own
     model: StringOrArrayOfStrings
   }
 
@@ -112,12 +131,15 @@ export const typeDefs = gql`
     name: String!
     slug: String!
     img: String
-    type: String
+    type: String!
+
+    # own
     model: StringOrArrayOfStrings
   }
 
   type Query {
     products(productType: String): [Product]
+    typeOfProducts: [String]
     product(id: Int!): Product!
   }
 `
