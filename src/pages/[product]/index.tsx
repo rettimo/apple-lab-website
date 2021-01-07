@@ -5,12 +5,14 @@ import { useProductsQuery, ProductsDocument, TypeOfProductsDocument } from 'gene
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const Product: NextPage = () => {
-  const router = useRouter()
+const ProductList: NextPage = () => {
+  const {
+    query: { product },
+  } = useRouter()
 
   const { data } = useProductsQuery({
     variables: {
-      productType: router.query.product as string,
+      productType: product as string,
     },
   })
 
@@ -18,13 +20,23 @@ const Product: NextPage = () => {
     <Layout>
       <h1>Product Page</h1>
       <div>
-        {data.products.map(product => (
-          <p key={product.id}>
-            <Link href={`/${router.query.product}/${product.slug}`}>
-              <a>{product.name}</a>
-            </Link>
-          </p>
-        ))}
+        {data.products.map(p => {
+          return (
+            <p key={p.id}>
+              <Link
+                href={{
+                  pathname: '/[product]/[slug]',
+                  query: {
+                    product,
+                    slug: p.slug,
+                  },
+                }}
+              >
+                <a>{p.name}</a>
+              </Link>
+            </p>
+          )
+        })}
       </div>
     </Layout>
   )
@@ -37,7 +49,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     query: TypeOfProductsDocument,
   })
 
-  const paths = data.typeOfProducts.map(type => ({
+  const paths = data.typeOfProducts.map((type: string) => ({
     params: { product: type },
   }))
 
@@ -62,4 +74,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 }
 
-export default Product
+export default ProductList

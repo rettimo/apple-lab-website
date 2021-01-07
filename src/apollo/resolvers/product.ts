@@ -5,7 +5,7 @@ type ProductsSearch = {
 }
 
 type ProductSearch = {
-  id: number
+  slug: string
 }
 
 export const productsResolvers = {
@@ -18,8 +18,8 @@ export const productsResolvers = {
       const res = new Set(products.map(p => p.type))
       return res
     },
-    product(_parent: any, { id }: ProductSearch, _context: any, _info: any) {
-      const [res] = products.filter(product => product.id === id)
+    product(_parent: any, { slug }: ProductSearch, _context: any, _info: any) {
+      const [res] = products.filter(product => product.slug === slug)
       return res
     },
   },

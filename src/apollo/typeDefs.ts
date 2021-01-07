@@ -139,7 +139,7 @@ export const typeDefs = gql`
 
   type Query {
     products(productType: String): [Product]
+    product(slug: String!): Product!
     typeOfProducts: [String]
-    product(id: Int!): Product!
   }
 `

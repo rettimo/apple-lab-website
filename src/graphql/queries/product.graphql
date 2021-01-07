@@ -1,8 +1,7 @@
-query Product($id: Int!) {
-  product(id: $id) {
+query Product($slug: String!) {
+  product(slug: $slug) {
     id
     name
-    slug
 
     ... on IPad {
       model

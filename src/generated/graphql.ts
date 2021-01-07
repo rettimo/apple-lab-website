@@ -144,8 +144,8 @@ export type IPod = Product & {
 export type Query = {
   __typename?: 'Query'
   products?: Maybe<Array<Maybe<Product>>>
-  typeOfProducts?: Maybe<Array<Maybe<Scalars['String']>>>
   product: Product
+  typeOfProducts?: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
 export type QueryProductsArgs = {
@@ -153,26 +153,26 @@ export type QueryProductsArgs = {
 }
 
 export type QueryProductArgs = {
-  id: Scalars['Int']
+  slug: Scalars['String']
 }
 
 export type ProductQueryVariables = Exact<{
-  id: Scalars['Int']
+  slug: Scalars['String']
 }>
 
 export type ProductQuery = { __typename?: 'Query' } & {
   product:
-    | ({ __typename?: 'IPhone' } & Pick<IPhone, 'id' | 'name' | 'slug'>)
-    | ({ __typename?: 'IPad' } & Pick<IPad, 'model' | 'ruler' | 'id' | 'name' | 'slug'>)
-    | ({ __typename?: 'MacBook' } & Pick<MacBook, 'id' | 'name' | 'slug'>)
-    | ({ __typename?: 'MacPro' } & Pick<MacPro, 'id' | 'name' | 'slug'>)
-    | ({ __typename?: 'MacMini' } & Pick<MacMini, 'id' | 'name' | 'slug'>)
-    | ({ __typename?: 'IMac' } & Pick<IMac, 'id' | 'name' | 'slug'>)
-    | ({ __typename?: 'Watch' } & Pick<Watch, 'id' | 'name' | 'slug'>)
-    | ({ __typename?: 'AppleTV' } & Pick<AppleTv, 'id' | 'name' | 'slug'>)
-    | ({ __typename?: 'AirPods' } & Pick<AirPods, 'id' | 'name' | 'slug'>)
-    | ({ __typename?: 'HomePod' } & Pick<HomePod, 'id' | 'name' | 'slug'>)
-    | ({ __typename?: 'IPod' } & Pick<IPod, 'id' | 'name' | 'slug'>)
+    | ({ __typename?: 'IPhone' } & Pick<IPhone, 'id' | 'name'>)
+    | ({ __typename?: 'IPad' } & Pick<IPad, 'model' | 'ruler' | 'id' | 'name'>)
+    | ({ __typename?: 'MacBook' } & Pick<MacBook, 'id' | 'name'>)
+    | ({ __typename?: 'MacPro' } & Pick<MacPro, 'id' | 'name'>)
+    | ({ __typename?: 'MacMini' } & Pick<MacMini, 'id' | 'name'>)
+    | ({ __typename?: 'IMac' } & Pick<IMac, 'id' | 'name'>)
+    | ({ __typename?: 'Watch' } & Pick<Watch, 'id' | 'name'>)
+    | ({ __typename?: 'AppleTV' } & Pick<AppleTv, 'id' | 'name'>)
+    | ({ __typename?: 'AirPods' } & Pick<AirPods, 'id' | 'name'>)
+    | ({ __typename?: 'HomePod' } & Pick<HomePod, 'id' | 'name'>)
+    | ({ __typename?: 'IPod' } & Pick<IPod, 'id' | 'name'>)
 }
 
 export type ProductsQueryVariables = Exact<{
@@ -199,16 +199,39 @@ export type ProductsQuery = { __typename?: 'Query' } & {
   >
 }
 
+export type ProductsByTypeQueryVariables = Exact<{
+  productType?: Maybe<Scalars['String']>
+}>
+
+export type ProductsByTypeQuery = { __typename?: 'Query' } & {
+  products?: Maybe<
+    Array<
+      Maybe<
+        | ({ __typename?: 'IPhone' } & Pick<IPhone, 'slug'>)
+        | ({ __typename?: 'IPad' } & Pick<IPad, 'slug'>)
+        | ({ __typename?: 'MacBook' } & Pick<MacBook, 'slug'>)
+        | ({ __typename?: 'MacPro' } & Pick<MacPro, 'slug'>)
+        | ({ __typename?: 'MacMini' } & Pick<MacMini, 'slug'>)
+        | ({ __typename?: 'IMac' } & Pick<IMac, 'slug'>)
+        | ({ __typename?: 'Watch' } & Pick<Watch, 'slug'>)
+        | ({ __typename?: 'AppleTV' } & Pick<AppleTv, 'slug'>)
+        | ({ __typename?: 'AirPods' } & Pick<AirPods, 'slug'>)
+        | ({ __typename?: 'HomePod' } & Pick<HomePod, 'slug'>)
+        | ({ __typename?: 'IPod' } & Pick<IPod, 'slug'>)
+      >
+    >
+  >
+}
+
 export type TypeOfProductsQueryVariables = Exact<{ [key: string]: never }>
 
 export type TypeOfProductsQuery = { __typename?: 'Query' } & Pick<Query, 'typeOfProducts'>
 
 export const ProductDocument = gql`
-  query Product($id: Int!) {
-    product(id: $id) {
+  query Product($slug: String!) {
+    product(slug: $slug) {
       id
       name
-      slug
       ... on IPad {
         model
         ruler
@@ -229,7 +252,7 @@ export const ProductDocument = gql`
  * @example
  * const { data, loading, error } = useProductQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      slug: // value for 'slug'
  *   },
  * });
  */
@@ -289,6 +312,52 @@ export function useProductsLazyQuery(
 export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>
 export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>
 export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>
+export const ProductsByTypeDocument = gql`
+  query ProductsByType($productType: String) {
+    products(productType: $productType) {
+      slug
+    }
+  }
+`
+
+/**
+ * __useProductsByTypeQuery__
+ *
+ * To run a query within a React component, call `useProductsByTypeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductsByTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductsByTypeQuery({
+ *   variables: {
+ *      productType: // value for 'productType'
+ *   },
+ * });
+ */
+export function useProductsByTypeQuery(
+  baseOptions?: Apollo.QueryHookOptions<ProductsByTypeQuery, ProductsByTypeQueryVariables>,
+) {
+  return Apollo.useQuery<ProductsByTypeQuery, ProductsByTypeQueryVariables>(
+    ProductsByTypeDocument,
+    baseOptions,
+  )
+}
+export function useProductsByTypeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ProductsByTypeQuery, ProductsByTypeQueryVariables>,
+) {
+  return Apollo.useLazyQuery<ProductsByTypeQuery, ProductsByTypeQueryVariables>(
+    ProductsByTypeDocument,
+    baseOptions,
+  )
+}
+export type ProductsByTypeQueryHookResult = ReturnType<typeof useProductsByTypeQuery>
+export type ProductsByTypeLazyQueryHookResult = ReturnType<typeof useProductsByTypeLazyQuery>
+export type ProductsByTypeQueryResult = Apollo.QueryResult<
+  ProductsByTypeQuery,
+  ProductsByTypeQueryVariables
+>
 export const TypeOfProductsDocument = gql`
   query TypeOfProducts {
     typeOfProducts

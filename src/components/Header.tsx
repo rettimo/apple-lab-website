@@ -74,7 +74,7 @@ export const Header: FC = () => {
             </li>
             {products.map(({ id, name, slug }) => (
               <li key={id}>
-                <Link href={`/${slug}`} passHref>
+                <Link href={{ pathname: '/[product]', query: { product: slug } }}>
                   <a>{name}</a>
                 </Link>
               </li>
