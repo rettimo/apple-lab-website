@@ -1,0 +1,6 @@
+query ProductsSlug {
+  products {
+    slug
+    type
+  }
+}

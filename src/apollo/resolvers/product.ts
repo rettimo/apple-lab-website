@@ -11,8 +11,12 @@ type ProductSearch = {
 export const productsResolvers = {
   Query: {
     products(_parent: any, { productType }: ProductsSearch, _context: any, _info: any) {
-      const res = products.filter(product => product.type === productType)
-      return res
+      if (productType) {
+        const res = products.filter(product => product.type === productType)
+        return res
+      }
+
+      return products
     },
     typeOfProducts(_parent: any, _args: any, _context: any, _info: any) {
       const res = new Set(products.map(p => p.type))

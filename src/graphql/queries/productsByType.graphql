@@ -1,5 +1,0 @@
-query ProductsByType($productType: String) {
-  products(productType: $productType) {
-    slug
-  }
-}

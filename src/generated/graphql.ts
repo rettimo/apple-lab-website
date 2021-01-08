@@ -199,33 +199,27 @@ export type ProductsQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type ProductsByTypeQueryVariables = Exact<{
-  productType?: Maybe<Scalars['String']>
-}>
+export type ProductsSlugQueryVariables = Exact<{ [key: string]: never }>
 
-export type ProductsByTypeQuery = { __typename?: 'Query' } & {
+export type ProductsSlugQuery = { __typename?: 'Query' } & {
   products?: Maybe<
     Array<
       Maybe<
-        | ({ __typename?: 'IPhone' } & Pick<IPhone, 'slug'>)
-        | ({ __typename?: 'IPad' } & Pick<IPad, 'slug'>)
-        | ({ __typename?: 'MacBook' } & Pick<MacBook, 'slug'>)
-        | ({ __typename?: 'MacPro' } & Pick<MacPro, 'slug'>)
-        | ({ __typename?: 'MacMini' } & Pick<MacMini, 'slug'>)
-        | ({ __typename?: 'IMac' } & Pick<IMac, 'slug'>)
-        | ({ __typename?: 'Watch' } & Pick<Watch, 'slug'>)
-        | ({ __typename?: 'AppleTV' } & Pick<AppleTv, 'slug'>)
-        | ({ __typename?: 'AirPods' } & Pick<AirPods, 'slug'>)
-        | ({ __typename?: 'HomePod' } & Pick<HomePod, 'slug'>)
-        | ({ __typename?: 'IPod' } & Pick<IPod, 'slug'>)
+        | ({ __typename?: 'IPhone' } & Pick<IPhone, 'slug' | 'type'>)
+        | ({ __typename?: 'IPad' } & Pick<IPad, 'slug' | 'type'>)
+        | ({ __typename?: 'MacBook' } & Pick<MacBook, 'slug' | 'type'>)
+        | ({ __typename?: 'MacPro' } & Pick<MacPro, 'slug' | 'type'>)
+        | ({ __typename?: 'MacMini' } & Pick<MacMini, 'slug' | 'type'>)
+        | ({ __typename?: 'IMac' } & Pick<IMac, 'slug' | 'type'>)
+        | ({ __typename?: 'Watch' } & Pick<Watch, 'slug' | 'type'>)
+        | ({ __typename?: 'AppleTV' } & Pick<AppleTv, 'slug' | 'type'>)
+        | ({ __typename?: 'AirPods' } & Pick<AirPods, 'slug' | 'type'>)
+        | ({ __typename?: 'HomePod' } & Pick<HomePod, 'slug' | 'type'>)
+        | ({ __typename?: 'IPod' } & Pick<IPod, 'slug' | 'type'>)
       >
     >
   >
 }
-
-export type TypeOfProductsQueryVariables = Exact<{ [key: string]: never }>
-
-export type TypeOfProductsQuery = { __typename?: 'Query' } & Pick<Query, 'typeOfProducts'>
 
 export const ProductDocument = gql`
   query Product($slug: String!) {
@@ -312,92 +306,49 @@ export function useProductsLazyQuery(
 export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>
 export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>
 export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>
-export const ProductsByTypeDocument = gql`
-  query ProductsByType($productType: String) {
-    products(productType: $productType) {
+export const ProductsSlugDocument = gql`
+  query ProductsSlug {
+    products {
       slug
+      type
     }
   }
 `
 
 /**
- * __useProductsByTypeQuery__
+ * __useProductsSlugQuery__
  *
- * To run a query within a React component, call `useProductsByTypeQuery` and pass it any options that fit your needs.
- * When your component renders, `useProductsByTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useProductsSlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductsSlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useProductsByTypeQuery({
- *   variables: {
- *      productType: // value for 'productType'
- *   },
- * });
- */
-export function useProductsByTypeQuery(
-  baseOptions?: Apollo.QueryHookOptions<ProductsByTypeQuery, ProductsByTypeQueryVariables>,
-) {
-  return Apollo.useQuery<ProductsByTypeQuery, ProductsByTypeQueryVariables>(
-    ProductsByTypeDocument,
-    baseOptions,
-  )
-}
-export function useProductsByTypeLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<ProductsByTypeQuery, ProductsByTypeQueryVariables>,
-) {
-  return Apollo.useLazyQuery<ProductsByTypeQuery, ProductsByTypeQueryVariables>(
-    ProductsByTypeDocument,
-    baseOptions,
-  )
-}
-export type ProductsByTypeQueryHookResult = ReturnType<typeof useProductsByTypeQuery>
-export type ProductsByTypeLazyQueryHookResult = ReturnType<typeof useProductsByTypeLazyQuery>
-export type ProductsByTypeQueryResult = Apollo.QueryResult<
-  ProductsByTypeQuery,
-  ProductsByTypeQueryVariables
->
-export const TypeOfProductsDocument = gql`
-  query TypeOfProducts {
-    typeOfProducts
-  }
-`
-
-/**
- * __useTypeOfProductsQuery__
- *
- * To run a query within a React component, call `useTypeOfProductsQuery` and pass it any options that fit your needs.
- * When your component renders, `useTypeOfProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTypeOfProductsQuery({
+ * const { data, loading, error } = useProductsSlugQuery({
  *   variables: {
  *   },
  * });
  */
-export function useTypeOfProductsQuery(
-  baseOptions?: Apollo.QueryHookOptions<TypeOfProductsQuery, TypeOfProductsQueryVariables>,
+export function useProductsSlugQuery(
+  baseOptions?: Apollo.QueryHookOptions<ProductsSlugQuery, ProductsSlugQueryVariables>,
 ) {
-  return Apollo.useQuery<TypeOfProductsQuery, TypeOfProductsQueryVariables>(
-    TypeOfProductsDocument,
+  return Apollo.useQuery<ProductsSlugQuery, ProductsSlugQueryVariables>(
+    ProductsSlugDocument,
     baseOptions,
   )
 }
-export function useTypeOfProductsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<TypeOfProductsQuery, TypeOfProductsQueryVariables>,
+export function useProductsSlugLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ProductsSlugQuery, ProductsSlugQueryVariables>,
 ) {
-  return Apollo.useLazyQuery<TypeOfProductsQuery, TypeOfProductsQueryVariables>(
-    TypeOfProductsDocument,
+  return Apollo.useLazyQuery<ProductsSlugQuery, ProductsSlugQueryVariables>(
+    ProductsSlugDocument,
     baseOptions,
   )
 }
-export type TypeOfProductsQueryHookResult = ReturnType<typeof useTypeOfProductsQuery>
-export type TypeOfProductsLazyQueryHookResult = ReturnType<typeof useTypeOfProductsLazyQuery>
-export type TypeOfProductsQueryResult = Apollo.QueryResult<
-  TypeOfProductsQuery,
-  TypeOfProductsQueryVariables
+export type ProductsSlugQueryHookResult = ReturnType<typeof useProductsSlugQuery>
+export type ProductsSlugLazyQueryHookResult = ReturnType<typeof useProductsSlugLazyQuery>
+export type ProductsSlugQueryResult = Apollo.QueryResult<
+  ProductsSlugQuery,
+  ProductsSlugQueryVariables
 >

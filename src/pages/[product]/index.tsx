@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { Layout } from 'components/Layout'
 import { initializeApollo } from 'apollo/client'
-import { useProductsQuery, ProductsDocument, TypeOfProductsDocument } from 'generated/graphql'
+import { useProductsQuery, ProductsDocument, ProductsSlugDocument } from 'generated/graphql'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -46,11 +46,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const apolloClient = initializeApollo()
 
   const { data } = await apolloClient.query({
-    query: TypeOfProductsDocument,
+    query: ProductsSlugDocument,
   })
 
-  const paths = data.typeOfProducts.map((type: string) => ({
-    params: { product: type },
+  const paths = data.products.map(({ slug, type }) => ({
+    params: { product: type, slug },
   }))
 
   return {
