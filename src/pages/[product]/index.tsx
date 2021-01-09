@@ -1,33 +1,24 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import { Layout } from 'components/Layout'
-import { initializeApollo } from 'apollo/client'
-import { useProductsQuery, ProductsDocument, ProductsSlugDocument } from 'generated/graphql'
+import Product, { IProduct } from 'models/Product'
+import { dbConnect } from 'utils/dbConnect'
+
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { Layout } from 'components/Layout'
+import { getProducts } from 'utils/dbQuery'
 
-const ProductList: NextPage = () => {
-  const {
-    query: { product },
-  } = useRouter()
-
-  const { data } = useProductsQuery({
-    variables: {
-      productType: product as string,
-    },
-  })
-
+const ProductList: NextPage<{ products: Array<IProduct> }> = ({ products }) => {
   return (
     <Layout>
       <h1>Product Page</h1>
       <div>
-        {data.products.map(p => {
+        {products.map(p => {
           return (
-            <p key={p.id}>
+            <p key={p._id}>
               <Link
                 href={{
                   pathname: '/[product]/[slug]',
                   query: {
-                    product,
+                    product: p.type,
                     slug: p.slug,
                   },
                 }}
@@ -43,14 +34,12 @@ const ProductList: NextPage = () => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const apolloClient = initializeApollo()
+  await dbConnect()
 
-  const { data } = await apolloClient.query({
-    query: ProductsSlugDocument,
-  })
+  const products = await getProducts()
 
-  const paths = data.products.map(({ slug, type }) => ({
-    params: { product: type, slug },
+  const paths = products.map(({ type }) => ({
+    params: { product: type },
   }))
 
   return {
@@ -59,18 +48,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const apolloClient = initializeApollo()
-
-  await apolloClient.query({
-    query: ProductsDocument,
-    variables: { productType: params.product },
-  })
+export const getStaticProps: GetStaticProps = async ({ params: { product } }) => {
+  const products = await getProducts(product as string)
 
   return {
     props: {
-      initialApolloState: apolloClient.cache.extract(),
+      products,
     },
+    revalidate: 1 * 60 * 60 * 24, // one day
   }
 }
 

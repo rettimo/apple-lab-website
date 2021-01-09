@@ -1,29 +1,21 @@
-import { initializeApollo } from 'apollo/client'
-import { Layout } from 'components/Layout'
-import { ProductDocument, ProductsSlugDocument, useProductQuery } from 'generated/graphql'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import { useRouter } from 'next/router'
+import { IProduct } from 'models/Product'
+import { getProduct, getProducts } from 'utils/dbQuery'
 
-const Product: NextPage = () => {
-  const { query } = useRouter()
+import { Layout } from 'components/Layout'
 
-  const { data } = useProductQuery({ variables: { slug: query.slug as string } })
-
+const ProductPage: NextPage<{ product: IProduct }> = ({ product }) => {
   return (
     <Layout>
-      <h1>{data.product.name}</h1>
+      <h1>{product.name}</h1>
     </Layout>
   )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const apolloClient = initializeApollo()
+  const products = await getProducts()
 
-  const { data } = await apolloClient.query({
-    query: ProductsSlugDocument,
-  })
-
-  const paths = data.products.map(({ type, slug }) => ({
+  const paths = products.map(({ type, slug }) => ({
     params: { product: type, slug },
   }))
 
@@ -34,18 +26,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params: { slug } }) => {
-  const apolloClient = initializeApollo()
-
-  await apolloClient.query({
-    query: ProductDocument,
-    variables: { slug },
-  })
+  const product = await getProduct(slug as string)
 
   return {
     props: {
-      initialApolloState: apolloClient.cache.extract(),
+      product,
     },
+    revalidate: 1 * 60 * 60 * 24, // one day
   }
 }
 
-export default Product
+export default ProductPage
