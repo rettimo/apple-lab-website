@@ -1,14 +1,16 @@
-/* eslint-disable func-names */
-import { Schema, model, Model, Document, models } from 'mongoose'
+import { ProductDocument, ProductModel } from 'interfaces'
+import { Schema, model, models } from 'mongoose'
 
 const ProductSchema: Schema = new Schema({
   name: {
     type: String,
     required: [true, 'Please provide a name for this product.'],
+    unique: true,
   },
   slug: {
     type: String,
-    required: true,
+    required: [true, 'Please provide a slug for this product.'],
+    unique: true,
   },
   img: {
     type: String,
@@ -35,20 +37,5 @@ const ProductSchema: Schema = new Schema({
     required: false,
   },
 })
-
-export interface IProduct {
-  _id: string
-  name: string
-  slug: string
-  img?: string
-  type?: string
-  modelIds?: Array<string>
-  line?: string
-  year?: number
-}
-
-export type ProductDocument = IProduct & Document
-
-export type ProductModel = Model<ProductDocument>
 
 export default models.Product || model<ProductDocument, ProductModel>('Product', ProductSchema)

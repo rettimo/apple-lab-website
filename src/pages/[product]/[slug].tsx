@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import { IProduct } from 'models/Product'
 import { getProduct, getProducts } from 'utils/dbQuery'
+import { IProduct } from 'interfaces'
 
 import { Layout } from 'components/Layout'
 

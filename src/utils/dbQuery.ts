@@ -1,4 +1,5 @@
-import Product, { IProduct } from 'models/Product'
+import { IProduct } from 'interfaces'
+import Product from 'models/Product'
 import { dbConnect } from 'utils/dbConnect'
 
 export const getProducts = async (type?: string): Promise<IProduct[]> => {
@@ -12,7 +13,7 @@ export const getProducts = async (type?: string): Promise<IProduct[]> => {
     result = await Product.find({})
   }
 
-  const products: IProduct[] = result.map(doc => {
+  const products = result.map(doc => {
     const p = doc.toObject()
     p._id = p._id.toString()
     return p

@@ -1,12 +1,12 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import Product, { IProduct } from 'models/Product'
 import { dbConnect } from 'utils/dbConnect'
 
 import Link from 'next/link'
 import { Layout } from 'components/Layout'
 import { getProducts } from 'utils/dbQuery'
+import { IProduct } from 'interfaces'
 
-const ProductList: NextPage<{ products: Array<IProduct> }> = ({ products }) => {
+const ProductList: NextPage<{ products: IProduct[] }> = ({ products }) => {
   return (
     <Layout>
       <h1>Product Page</h1>
